@@ -1,5 +1,6 @@
 package com.dchristofolli.finalgrades.v1.service;
 
+import com.dchristofolli.finalgrades.domain.StudentRepository;
 import com.dchristofolli.finalgrades.v1.dto.StudentList;
 import com.google.gson.Gson;
 import org.slf4j.Logger;
@@ -16,9 +17,11 @@ import java.nio.file.Paths;
 public class GradeService {
     private final Logger logger = LoggerFactory.getLogger(GradeService.class);
     private final Gson gson;
+    private final StudentRepository studentRepository;
 
-    public GradeService(Gson gson) {
+    public GradeService(Gson gson, StudentRepository studentRepository) {
         this.gson = gson;
+        this.studentRepository = studentRepository;
     }
 
     @PostConstruct
@@ -32,6 +35,6 @@ public class GradeService {
             logger.error(e.getMessage());
         }
         StudentList studentList = gson.fromJson(json, StudentList.class);
-        logger.info("Students found: {}", studentList);
+        studentRepository.saveAll(studentList.getAlunos());
     }
 }

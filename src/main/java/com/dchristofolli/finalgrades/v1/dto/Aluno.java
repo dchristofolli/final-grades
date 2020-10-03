@@ -1,8 +1,13 @@
 package com.dchristofolli.finalgrades.v1.dto;
 
+import org.springframework.data.annotation.Id;
+import org.springframework.data.mongodb.core.mapping.Document;
+
 import java.util.List;
 
+@Document
 public class Aluno {
+    @Id
     Long id;
     String nome;
     List<Disciplina> disciplinas;

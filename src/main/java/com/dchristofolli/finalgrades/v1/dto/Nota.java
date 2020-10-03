@@ -1,13 +1,16 @@
 package com.dchristofolli.finalgrades.v1.dto;
 
+import com.fasterxml.jackson.annotation.JsonInclude;
+
+@JsonInclude(JsonInclude.Include.NON_NULL)
 public class Nota {
     private Long id;
-    private double Prova1;
-    private double Prova2;
-    private double Prova3;
-    private double peso;
+    private Double Prova1;
+    private Double Prova2;
+    private Double Prova3;
+    private Double peso;
 
-    public Nota(Long id, double prova1, double prova2, double prova3, double peso) {
+    public Nota(Long id, Double prova1, Double prova2, Double prova3, Double peso) {
         this.id = id;
         Prova1 = prova1;
         Prova2 = prova2;
@@ -34,35 +37,35 @@ public class Nota {
         this.id = id;
     }
 
-    public double getProva1() {
+    public Double getProva1() {
         return Prova1;
     }
 
-    public void setProva1(double prova1) {
+    public void setProva1(Double prova1) {
         Prova1 = prova1;
     }
 
-    public double getProva2() {
+    public Double getProva2() {
         return Prova2;
     }
 
-    public void setProva2(double prova2) {
+    public void setProva2(Double prova2) {
         Prova2 = prova2;
     }
 
-    public double getProva3() {
+    public Double getProva3() {
         return Prova3;
     }
 
-    public void setProva3(double prova3) {
+    public void setProva3(Double prova3) {
         Prova3 = prova3;
     }
 
-    public double getPeso() {
+    public Double getPeso() {
         return peso;
     }
 
-    public void setPeso(double peso) {
+    public void setPeso(Double peso) {
         this.peso = peso;
     }
 }
