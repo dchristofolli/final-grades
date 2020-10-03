@@ -25,7 +25,7 @@ public class GradeService {
     }
 
     @PostConstruct
-    private void jsonReader() {
+    private void studentListReader() {
         String json = null;
         try {
             json = String.join(" ",

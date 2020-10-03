@@ -8,14 +8,18 @@ public class Nota {
     private Double Prova1;
     private Double Prova2;
     private Double Prova3;
-    private Double peso;
+    private Double peso1;
+    private Double peso2;
+    private Double peso3;
 
-    public Nota(Long id, Double prova1, Double prova2, Double prova3, Double peso) {
+    public Nota(Long id, Double prova1, Double prova2, Double prova3, Double peso1, Double peso2, Double peso3) {
         this.id = id;
         Prova1 = prova1;
         Prova2 = prova2;
         Prova3 = prova3;
-        this.peso = peso;
+        this.peso1 = peso1;
+        this.peso2 = peso2;
+        this.peso3 = peso3;
     }
 
     @Override
@@ -25,7 +29,9 @@ public class Nota {
             ", Prova1=" + Prova1 +
             ", Prova2=" + Prova2 +
             ", Prova3=" + Prova3 +
-            ", peso=" + peso +
+            ", peso1=" + peso1 +
+            ", peso2=" + peso2 +
+            ", peso3=" + peso3 +
             '}';
     }
 
@@ -61,11 +67,27 @@ public class Nota {
         Prova3 = prova3;
     }
 
-    public Double getPeso() {
-        return peso;
+    public Double getPeso1() {
+        return peso1;
     }
 
-    public void setPeso(Double peso) {
-        this.peso = peso;
+    public void setPeso1(Double peso1) {
+        this.peso1 = peso1;
+    }
+
+    public Double getPeso2() {
+        return peso2;
+    }
+
+    public void setPeso2(Double peso2) {
+        this.peso2 = peso2;
+    }
+
+    public Double getPeso3() {
+        return peso3;
+    }
+
+    public void setPeso3(Double peso3) {
+        this.peso3 = peso3;
     }
 }
