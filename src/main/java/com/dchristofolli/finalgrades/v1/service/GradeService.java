@@ -25,7 +25,7 @@ public class GradeService {
     }
 
     @PostConstruct
-    public StudentList jsonReader() {
+    private void jsonReader() {
         String json = null;
         try {
             json = String.join(" ",
@@ -34,7 +34,7 @@ public class GradeService {
         } catch (IOException e) {
             logger.error(e.getMessage());
         }
-        return gson.fromJson(json, StudentList.class);
-//        studentRepository.saveAll(studentList.getAlunos());
+        StudentList studentList = gson.fromJson(json, StudentList.class);
+        studentRepository.saveAll(studentList.getAlunos());
     }
 }

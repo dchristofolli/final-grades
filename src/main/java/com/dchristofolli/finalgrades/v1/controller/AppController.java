@@ -1,7 +1,7 @@
 package com.dchristofolli.finalgrades.v1.controller;
 
 import com.dchristofolli.finalgrades.v1.dto.StudentList;
-import com.dchristofolli.finalgrades.v1.service.GradeService;
+import com.dchristofolli.finalgrades.v1.service.StudentService;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.ApiResponse;
@@ -14,10 +14,10 @@ import org.springframework.web.bind.annotation.RestController;
 @Api(value = "PUC Final Grades")
 @RequestMapping(path = "/v1/student")
 public class AppController {
-    private final GradeService gradeService;
+    private final StudentService studentService;
 
-    public AppController(GradeService gradeService) {
-        this.gradeService = gradeService;
+    public AppController(StudentService studentService) {
+        this.studentService = studentService;
     }
 
     @ApiOperation("Find all students")
@@ -27,7 +27,7 @@ public class AppController {
     })
     @GetMapping("/all")
     public StudentList findAll() {
-        return gradeService.jsonReader();
+        return studentService.findAll();
     }
 
 }
