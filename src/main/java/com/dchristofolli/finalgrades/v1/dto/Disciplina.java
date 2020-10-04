@@ -1,11 +1,18 @@
 package com.dchristofolli.finalgrades.v1.dto;
 
+import com.fasterxml.jackson.annotation.JsonInclude;
+import org.springframework.data.annotation.Id;
+import org.springframework.data.mongodb.core.mapping.Document;
+
 import java.util.List;
 
+@Document
+@JsonInclude(JsonInclude.Include.NON_NULL)
 public class Disciplina {
-    Long id;
-    String nome;
-    List<Nota> notas;
+    @Id
+    private Long id;
+    private String nome;
+    private List<Nota> notas;
 
     public Disciplina(Long id, String nome, List<Nota> notas) {
         this.id = id;
