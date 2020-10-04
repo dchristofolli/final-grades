@@ -77,28 +77,37 @@ public class GradeService {
                     .map(Disciplina::getNotas)
                     .forEach(notas ->
                         notas.forEach(nota -> {
-                            if (nota.getProva1() == null)
-                                nota.setProva1(0.0);
-                            if (nota.getProva2() == null)
-                                nota.setProva2(0.0);
-                            if (nota.getProva3() == null)
-                                nota.setProva3(0.0);
-                            sum.updateAndGet(v -> (v + (nota.getProva1() * gradeRequest.getPeso1())));
-                            sum.updateAndGet(v -> (v + (nota.getProva2() * gradeRequest.getPeso2())));
-                            sum.updateAndGet(v -> (v + (nota.getProva3() * gradeRequest.getPeso3())));
+                            Nota nt = gradesCorrector(nota);
+                            sum.updateAndGet(v -> (v + (nt.getProva1() * gradeRequest.getPeso1())));
+                            sum.updateAndGet(v -> (v + (nt.getProva2() * gradeRequest.getPeso2())));
+                            sum.updateAndGet(v -> (v + (nt.getProva3() * gradeRequest.getPeso3())));
                         })
                     );
                 tempAluno.setNotaFinal(sum.get() / 3);
                 if (tempAluno.getNotaFinal() > 10)
                     tempAluno.setNotaFinal(10);
-                DecimalFormat df = new DecimalFormat("#.0");
-                String format = df.format(tempAluno.getNotaFinal());
-                tempAluno.setNotaFinal(Double.parseDouble(format));
-                alunoResultList.add(tempAluno);
+                alunoResultList.add(decimalFormatter(tempAluno));
             }
         });
         return new GradeResult(disciplina.getId(),
             disciplina.getNome(),
             alunoResultList);
+    }
+
+    private Nota gradesCorrector(Nota nota) {
+        if (nota.getProva1() == null)
+            nota.setProva1(0.0);
+        if (nota.getProva2() == null)
+            nota.setProva2(0.0);
+        if (nota.getProva3() == null)
+            nota.setProva3(0.0);
+        return nota;
+    }
+
+    private AlunoResult decimalFormatter(AlunoResult tempAluno) {
+        DecimalFormat df = new DecimalFormat("#.0");
+        String format = df.format(tempAluno.getNotaFinal());
+        tempAluno.setNotaFinal(Double.parseDouble(format));
+        return tempAluno;
     }
 }
