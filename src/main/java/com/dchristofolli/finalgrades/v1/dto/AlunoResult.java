@@ -5,6 +5,9 @@ public class AlunoResult {
     private String nome;
     private double notaFinal;
 
+    public AlunoResult() {
+    }
+
     public AlunoResult(Long id, String nome, double notaFinal) {
         this.id = id;
         this.nome = nome;
