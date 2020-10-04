@@ -32,7 +32,7 @@ public class AppController {
     })
     @GetMapping("/students")
     public StudentList findAllStudents() {
-        return gradeService.studentListReader();
+        return gradeService.findAllStudents();
     }
 
     @ApiOperation("Find all classes")
