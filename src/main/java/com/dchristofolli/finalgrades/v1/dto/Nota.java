@@ -1,6 +1,9 @@
 package com.dchristofolli.finalgrades.v1.dto;
 
-import com.fasterxml.jackson.annotation.*;
+import com.fasterxml.jackson.annotation.JsonCreator;
+import com.fasterxml.jackson.annotation.JsonGetter;
+import com.fasterxml.jackson.annotation.JsonInclude;
+import com.fasterxml.jackson.annotation.JsonSetter;
 
 @JsonInclude(JsonInclude.Include.NON_NULL)
 public class Nota {
@@ -11,13 +14,13 @@ public class Nota {
 
     @JsonCreator
     public Nota(Long id,
-                @JsonProperty("Prova1") Double prova1,
-                @JsonProperty("Prova2") Double prova2,
-                @JsonProperty("Prova3") Double prova3) {
+                Double Prova1,
+                Double Prova2,
+                Double Prova3) {
         this.id = id;
-        this.Prova1 = prova1;
-        this.Prova2 = prova2;
-        this.Prova3 = prova3;
+        this.Prova1 = Prova1;
+        this.Prova2 = Prova2;
+        this.Prova3 = Prova3;
     }
 
     @Override
