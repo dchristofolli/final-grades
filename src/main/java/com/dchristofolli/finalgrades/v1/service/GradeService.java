@@ -1,5 +1,8 @@
 package com.dchristofolli.finalgrades.v1.service;
 
+import com.dchristofolli.finalgrades.v1.dto.Aluno;
+import com.dchristofolli.finalgrades.v1.dto.Disciplina;
+import com.dchristofolli.finalgrades.v1.dto.DisciplinaBuilder;
 import com.dchristofolli.finalgrades.v1.dto.StudentList;
 import com.google.gson.Gson;
 import org.slf4j.Logger;
@@ -11,6 +14,8 @@ import java.io.IOException;
 import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
 import java.nio.file.Paths;
+import java.util.ArrayList;
+import java.util.List;
 
 @Service
 public class GradeService {
@@ -35,4 +40,18 @@ public class GradeService {
         return gson.fromJson(json, StudentList.class);
     }
 
+    public List<Disciplina> findAllSubjects() {
+        List<Disciplina> disciplinaList = new ArrayList<>();
+        studentListReader().getAlunos().stream()
+            .map(Aluno::getDisciplinas)
+            .forEach(disciplinas -> disciplinas
+                .forEach(disciplina -> {
+                    if (disciplinaList.stream().noneMatch(disc -> disc.getId().equals(disciplina.getId())))
+                        disciplinaList.add(DisciplinaBuilder.aDisciplina()
+                            .withId(disciplina.getId())
+                            .withNome(disciplina.getNome())
+                            .build());
+                }));
+        return disciplinaList;
+    }
 }
