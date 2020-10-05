@@ -36,7 +36,7 @@ public class AppController {
         return gradeService.findAllStudent();
     }
 
-    @ApiOperation("Lista todas as disciplinas contidas no arquivo")
+    @ApiOperation("Lista todas as disciplinas contidas no banco")
     @ApiResponses({
         @ApiResponse(code = 200, message = "Disciplinas listadas com sucesso"),
         @ApiResponse(code = 500, message = "Ocorreu um erro inesperado")

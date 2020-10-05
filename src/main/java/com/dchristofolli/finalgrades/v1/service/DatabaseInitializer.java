@@ -3,7 +3,6 @@ package com.dchristofolli.finalgrades.v1.service;
 import com.dchristofolli.finalgrades.domain.ClassRepository;
 import com.dchristofolli.finalgrades.domain.StudentRepository;
 import com.dchristofolli.finalgrades.exception.ApiException;
-import com.dchristofolli.finalgrades.v1.dto.Disciplina;
 import com.dchristofolli.finalgrades.v1.dto.DisciplinaBuilder;
 import com.dchristofolli.finalgrades.v1.dto.StudentList;
 import com.google.gson.Gson;
@@ -14,8 +13,6 @@ import javax.annotation.PostConstruct;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Paths;
-import java.util.ArrayList;
-import java.util.List;
 
 @Component
 public class DatabaseInitializer {
@@ -30,10 +27,11 @@ public class DatabaseInitializer {
     }
 
     @PostConstruct
-    private void initialize(){
+    private void initialize() {
         readJsonFile();
         saveAllClasses();
     }
+
     private void readJsonFile() {
         try {
             String tempJson = new String(Files.readAllBytes(Paths.get("Alunos.json")));
@@ -46,11 +44,11 @@ public class DatabaseInitializer {
         }
     }
 
-    private void saveAllClasses(){
+    private void saveAllClasses() {
         studentRepository.findAll()
             .forEach(aluno -> aluno.getDisciplinas()
                 .forEach(disciplina -> {
-                    if(!classRepository.existsById(disciplina.getId()))
+                    if (!classRepository.existsById(disciplina.getId()))
                         classRepository.save(DisciplinaBuilder.aDisciplina()
                             .withId(disciplina.getId())
                             .withNome(disciplina.getNome())
