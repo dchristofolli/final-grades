@@ -1,10 +1,12 @@
 package com.dchristofolli.finalgrades.v1.service;
 
+import com.dchristofolli.finalgrades.exception.ApiException;
 import com.dchristofolli.finalgrades.v1.dto.*;
 import com.google.gson.Gson;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 
 import java.io.IOException;
@@ -60,11 +62,11 @@ public class GradeService {
         return disciplinaList;
     }
 
-    //todo lançar exception quando o usuário inserir dados inválidos
     public GradeResult getResultsByClass(GradeRequest gradeRequest) {
+        fillsDefaultWeight(gradeRequest);
         Disciplina disciplina = findAllClasses().stream()
             .filter(disc -> disc.getId().equals(gradeRequest.getDiciplinaId()))
-            .findFirst().orElseThrow(RuntimeException::new);
+            .findFirst().orElseThrow(() -> new ApiException("Nenhum aluno encontrado", HttpStatus.NOT_FOUND));
         List<AlunoResult> alunoResultList = new ArrayList<>();
         findAllStudents().getAlunos().forEach(aluno -> {
             if (aluno.getDisciplinas().stream().anyMatch(disc -> disc.getId().equals(disciplina.getId()))) {
@@ -92,6 +94,15 @@ public class GradeService {
         return new GradeResult(disciplina.getId(),
             disciplina.getNome(),
             alunoResultList);
+    }
+
+    private void fillsDefaultWeight(GradeRequest gradeRequest) {
+        if(gradeRequest.getPeso1() == null)
+            gradeRequest.setPeso1(1);
+        if(gradeRequest.getPeso2() == null)
+            gradeRequest.setPeso2(1);
+        if(gradeRequest.getPeso3() == null)
+            gradeRequest.setPeso3(1);
     }
 
     private Nota gradesCorrector(Nota nota) {

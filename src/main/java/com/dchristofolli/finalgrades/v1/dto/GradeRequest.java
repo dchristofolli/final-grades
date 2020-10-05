@@ -1,9 +1,31 @@
 package com.dchristofolli.finalgrades.v1.dto;
 
+import io.swagger.annotations.ApiModelProperty;
+
+import javax.validation.constraints.NotBlank;
+
 public class GradeRequest {
+    @ApiModelProperty(
+        notes = "ID da disciplina que terá as notas finais exibidas",
+        required = true,
+        example = "1",
+    allowableValues = "1, 2, 3, 4")
+    @NotBlank(message = "Campo obrigatório")
     private Long diciplinaId;
+
+    @ApiModelProperty(notes = "Peso da prova 1. Será usado no cálculo da nota final." +
+        " Caso o campo não seja preenchido, o peso da prova será definido como 1",
+    example = "1")
     private Integer peso1;
+
+    @ApiModelProperty(notes = "Peso da prova 2. Será usado no cálculo da nota final." +
+        " Caso o campo não seja preenchido, o peso da prova será definido como 1",
+        example = "1")
     private Integer peso2;
+
+    @ApiModelProperty(notes = "Peso da prova 3. Será usado no cálculo da nota final." +
+        " Caso o campo não seja preenchido, o peso da prova será definido como 1",
+        example = "1")
     private Integer peso3;
 
     public GradeRequest(Long diciplinaId, Integer peso1, Integer peso2, Integer peso3) {

@@ -13,6 +13,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import javax.validation.Valid;
 import java.util.List;
 
 @RestController
@@ -25,33 +26,33 @@ public class AppController {
         this.gradeService = gradeService;
     }
 
-    @ApiOperation("Find all students")
+    @ApiOperation("Lista todos os alunos com as disciplinas nas quais estão matriculados e as notas obtidas nas provas")
     @ApiResponses({
-        @ApiResponse(code = 200, message = "Sessions found"),
-        @ApiResponse(code = 500, message = "Bad server")
+        @ApiResponse(code = 200, message = "Informações exibidas com sucesso"),
+        @ApiResponse(code = 500, message = "Erro inesperado")
     })
     @GetMapping("/students")
     public StudentList findAllStudents() {
         return gradeService.findAllStudents();
     }
 
-    @ApiOperation("Find all classes")
+    @ApiOperation("Lista todas as disciplinas")
     @ApiResponses({
-        @ApiResponse(code = 200, message = "Classes found"),
-        @ApiResponse(code = 500, message = "Bad server")
+        @ApiResponse(code = 200, message = "Disciplinas listadas com sucesso"),
+        @ApiResponse(code = 500, message = "Ocorreu um erro inesperado")
     })
     @GetMapping("/classes")
     public List<Disciplina> findAllClasses() {
         return gradeService.findAllClasses();
     }
 
-    @ApiOperation("Get results")
+    @ApiOperation("Calcula e exibe as notas finais dos alunos matriculados por disciplina")
     @ApiResponses({
-        @ApiResponse(code = 200, message = "Results found"),
-        @ApiResponse(code = 500, message = "Bad server")
+        @ApiResponse(code = 200, message = "Notas finais exibidas com sucesso"),
+        @ApiResponse(code = 500, message = "Ocorreu um erro inesperado")
     })
     @GetMapping("/results")
-    public GradeResult getResultsByClass(GradeRequest gradeRequest) {
+    public GradeResult getResultsByClass(@Valid GradeRequest gradeRequest) {
         return gradeService.getResultsByClass(gradeRequest);
     }
 }

@@ -1,8 +1,11 @@
 package com.dchristofolli.finalgrades.v1.dto;
 
+import io.swagger.annotations.ApiModelProperty;
+
 import java.util.List;
 
 public class StudentList {
+    @ApiModelProperty(notes = "Lista com os dados de todos os alunos")
     private List<Aluno> alunos;
 
     public StudentList(List<Aluno> alunos) {
