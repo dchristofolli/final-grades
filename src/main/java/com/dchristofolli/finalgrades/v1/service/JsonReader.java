@@ -10,13 +10,10 @@ import java.io.IOException;
 import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
 import java.nio.file.Paths;
-import java.util.Objects;
 
 @Service
 public class JsonReader {
     private final Gson gson;
-    private static final String DELIMITER = " ";
-    private static final String JSON_PATH = "Alunos.json";
 
     public JsonReader(Gson gson) {
         this.gson = gson;
@@ -24,10 +21,10 @@ public class JsonReader {
 
     public StudentList readJsonFile() {
         try {
-            String tempJson = String.join(DELIMITER,
-                Files.readAllLines(Paths.get(JSON_PATH),
+            String tempJson = String.join(" ",
+                Files.readAllLines(Paths.get("Alunos.json"),
                     StandardCharsets.UTF_8));
-            String json = Objects.requireNonNull(tempJson).replace("Prova", "prova");
+            String json = tempJson.replace("Prova", "prova");
             return new StudentList(gson.fromJson(json, StudentList.class).getAlunos());
         } catch (IOException e) {
             throw new ApiException("Não foi possível ler o arquivo.\n" + e.getMessage(),
