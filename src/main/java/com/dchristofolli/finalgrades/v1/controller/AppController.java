@@ -33,7 +33,7 @@ public class AppController {
     })
     @GetMapping("/students")
     public StudentList findAllStudents() {
-        return gradeService.findAllStudents();
+        return gradeService.findAllStudent();
     }
 
     @ApiOperation("Lista todas as disciplinas")

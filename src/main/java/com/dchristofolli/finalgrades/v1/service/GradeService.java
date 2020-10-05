@@ -2,54 +2,29 @@ package com.dchristofolli.finalgrades.v1.service;
 
 import com.dchristofolli.finalgrades.exception.ApiException;
 import com.dchristofolli.finalgrades.v1.dto.*;
-import com.google.gson.Gson;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 
-import java.io.IOException;
-import java.nio.charset.StandardCharsets;
-import java.nio.file.Files;
-import java.nio.file.Paths;
 import java.text.DecimalFormat;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Objects;
 import java.util.concurrent.atomic.AtomicReference;
 
 @Service
 public class GradeService {
-    private final Logger logger = LoggerFactory.getLogger(GradeService.class);
-    private final Gson gson;
-    @Value("${file.path}")
-    private String jsonFilePath;
+    private final JsonReader jsonReader;
 
-    public GradeService(Gson gson) {
-        this.gson = gson;
+    public GradeService(JsonReader jsonReader) {
+        this.jsonReader = jsonReader;
     }
 
-    public StudentList jsonReader() {
-        String tempJson = null;
-        try {
-            tempJson = String.join(" ",
-                Files.readAllLines(Paths.get(jsonFilePath),
-                    StandardCharsets.UTF_8));
-        } catch (IOException e) {
-            logger.error(e.getMessage());
-        }
-        String json = Objects.requireNonNull(tempJson).replace("Prova", "prova");
-        return new StudentList(gson.fromJson(json, StudentList.class).getAlunos());
-    }
-
-    public StudentList findAllStudents() {
-        return jsonReader();
+    public StudentList findAllStudent() {
+        return jsonReader.readJsonFile();
     }
 
     public List<Disciplina> findAllClasses() {
         List<Disciplina> disciplinaList = new ArrayList<>();
-        findAllStudents().getAlunos().stream()
+        jsonReader.readJsonFile().getAlunos().stream()
             .map(Aluno::getDisciplinas)
             .forEach(disciplinas -> disciplinas
                 .forEach(disciplina -> {
@@ -68,7 +43,7 @@ public class GradeService {
             .filter(disc -> disc.getId().equals(gradeRequest.getDiciplinaId()))
             .findFirst().orElseThrow(() -> new ApiException("Nenhum aluno encontrado", HttpStatus.NOT_FOUND));
         List<AlunoResult> alunoResultList = new ArrayList<>();
-        findAllStudents().getAlunos().forEach(aluno -> {
+        jsonReader.readJsonFile().getAlunos().forEach(aluno -> {
             if (aluno.getDisciplinas().stream().anyMatch(disc -> disc.getId().equals(disciplina.getId()))) {
                 AlunoResult tempAluno = new AlunoResult();
                 tempAluno.setId(aluno.getId());
@@ -97,11 +72,11 @@ public class GradeService {
     }
 
     private void fillsDefaultWeight(GradeRequest gradeRequest) {
-        if(gradeRequest.getPeso1() == null)
+        if (gradeRequest.getPeso1() == null)
             gradeRequest.setPeso1(1);
-        if(gradeRequest.getPeso2() == null)
+        if (gradeRequest.getPeso2() == null)
             gradeRequest.setPeso2(1);
-        if(gradeRequest.getPeso3() == null)
+        if (gradeRequest.getPeso3() == null)
             gradeRequest.setPeso3(1);
     }
 
