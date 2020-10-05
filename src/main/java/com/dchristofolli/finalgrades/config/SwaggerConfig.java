@@ -23,8 +23,8 @@ public class SwaggerConfig {
     }
 
     private ApiInfo metadata() {
-        return new ApiInfoBuilder().title("PUC Grades Challenge")
-            .description("Final grades calculator")
+        return new ApiInfoBuilder().title("Desafio PUC")
+            .description("Calculadora de notas finais")
             .version("1.0")
             .build();
     }

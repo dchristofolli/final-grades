@@ -1,72 +1,57 @@
 package com.dchristofolli.finalgrades.v1.dto;
 
-import com.fasterxml.jackson.annotation.JsonGetter;
 import com.fasterxml.jackson.annotation.JsonInclude;
-import com.fasterxml.jackson.annotation.JsonProperty;
-import com.fasterxml.jackson.annotation.JsonSetter;
+import io.swagger.annotations.ApiModelProperty;
 
 @JsonInclude(JsonInclude.Include.NON_NULL)
 public class Nota {
-    private Long id;
-    @JsonProperty("Prova1")
-    private Double test1;
-    @JsonProperty("Prova2")
-    private Double test2;
-    @JsonProperty("Prova3")
-    private Double test3;
+    @ApiModelProperty(notes = "Nota da primeira prova")
+    private Double prova1;
 
-    public Nota(Long id, Double test1, Double test2, Double test3) {
-        this.id = id;
-        this.test1 = test1;
-        this.test2 = test2;
-        this.test3 = test3;
+    @ApiModelProperty(notes = "Nota da segunda prova")
+    private Double prova2;
+
+    @ApiModelProperty(notes = "Nota da terceira prova")
+    private Double prova3;
+
+    public Nota(Double prova1,
+                Double prova2,
+                Double prova3) {
+        this.prova1 = prova1;
+        this.prova2 = prova2;
+        this.prova3 = prova3;
     }
 
     @Override
     public String toString() {
         return "Nota{" +
-            "id=" + id +
-            ", Prova1=" + test1 +
-            ", Prova2=" + test2 +
-            ", Prova3=" + test3 +
+            ", prova1=" + prova1 +
+            ", prova2=" + prova2 +
+            ", prova3=" + prova3 +
             '}';
     }
 
-    public Long getId() {
-        return id;
+    public Double getProva1() {
+        return prova1;
     }
 
-    public void setId(Long id) {
-        this.id = id;
+    public void setProva1(Double prova1) {
+        this.prova1 = prova1;
     }
 
-    @JsonGetter("Prova1")
-    public Double getTest1() {
-        return test1;
+    public Double getProva2() {
+        return prova2;
     }
 
-    @JsonSetter("Prova1")
-    public void setTest1(Double test1) {
-        this.test1 = test1;
+    public void setProva2(Double prova2) {
+        this.prova2 = prova2;
     }
 
-    @JsonGetter("Prova2")
-    public Double getTest2() {
-        return test2;
+    public Double getProva3() {
+        return prova3;
     }
 
-    @JsonSetter("Prova2")
-    public void setTest2(Double test2) {
-        this.test2 = test2;
-    }
-
-    @JsonGetter("Prova3")
-    public Double getTest3() {
-        return test3;
-    }
-
-    @JsonSetter("Prova3")
-    public void setTest3(Double test3) {
-        this.test3 = test3;
+    public void setProva3(Double prova3) {
+        this.prova3 = prova3;
     }
 }

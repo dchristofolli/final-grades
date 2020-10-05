@@ -1,21 +1,31 @@
 package com.dchristofolli.finalgrades.v1.dto;
 
-import org.springframework.data.annotation.Id;
-import org.springframework.data.mongodb.core.mapping.Document;
+import io.swagger.annotations.ApiModelProperty;
 
 import java.util.List;
 
-@Document
 public class Aluno {
-    @Id
+    @ApiModelProperty(notes = "Identificador único do aluno",
+    example = "1")
     Long id;
+    @ApiModelProperty(notes = "Nome completo do aluno",
+    example = "João Silva")
     String nome;
+    @ApiModelProperty(notes = "Disciplinas que o aluno está matriculado",
+    example =
+        "[\n" +
+        "    Alpro-II,\n" +
+        "    Calculo-A\n" +
+        "]")
     List<Disciplina> disciplinas;
 
     public Aluno(Long id, String nome, List<Disciplina> disciplinas) {
         this.id = id;
         this.nome = nome;
         this.disciplinas = disciplinas;
+    }
+
+    public Aluno() {
     }
 
     public Long getId() {
