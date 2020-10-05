@@ -2,6 +2,7 @@ package com.dchristofolli.finalgrades.v1.controller;
 
 import com.dchristofolli.finalgrades.domain.ClassRepository;
 import com.dchristofolli.finalgrades.domain.StudentRepository;
+import com.dchristofolli.finalgrades.v1.Stub;
 import com.dchristofolli.finalgrades.v1.dto.Aluno;
 import com.dchristofolli.finalgrades.v1.dto.Disciplina;
 import com.dchristofolli.finalgrades.v1.dto.GradeRequest;
@@ -10,7 +11,6 @@ import com.dchristofolli.finalgrades.v1.service.GradeService;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.BDDMockito;
-import org.mockito.Mock;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
@@ -27,13 +27,15 @@ import java.util.List;
 @WebMvcTest(controllers = AppController.class)
 @ContextConfiguration(classes = {
     AppController.class,
-    GradeService.class
+    GradeService.class,
+    StudentRepository.class,
+    ClassRepository.class
 })
 @AutoConfigureMockMvc
 class AppControllerTest {
     @Autowired
     MockMvc mockMvc;
-    @Mock
+    @MockBean
     GradeService gradeService;
     @MockBean
     StudentRepository studentRepository;
@@ -61,7 +63,7 @@ class AppControllerTest {
         GradeRequest request = Stub.gradeRequestStub();
         GradeResult gradeResult = Stub.gradeResultStub();
         BDDMockito.when(gradeService.getResultsByClass(request)).thenReturn(gradeResult);
-        mockMvc.perform(MockMvcRequestBuilders.get("/v1/final-grades/classes"))
+        mockMvc.perform(MockMvcRequestBuilders.get("/v1/final-grades/results"))
             .andExpect(MockMvcResultMatchers.status().isOk());
     }
 }

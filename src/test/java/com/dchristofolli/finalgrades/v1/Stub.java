@@ -1,7 +1,8 @@
-package com.dchristofolli.finalgrades.v1.controller;
+package com.dchristofolli.finalgrades.v1;
 
 import com.dchristofolli.finalgrades.v1.dto.*;
 
+import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
@@ -47,15 +48,22 @@ public class Stub {
             1L, 1, 1, 1);
     }
 
+    public static List<AlunoResult> studentResultList(){
+        List<AlunoResult> alunoResultList = new ArrayList<>();
+        AlunoResult alunoResult = new AlunoResult(
+            1L,
+            "José da Silva",
+            8.0
+        );
+        alunoResultList.add(alunoResult);
+        return alunoResultList;
+    }
+
     public static GradeResult gradeResultStub() {
         return new GradeResult(
             1L,
-            "AlproII",
-            Collections.singletonList(new AlunoResult(
-                1L,
-                "José da Silva",
-                8.8
-            ))
+            "Alpro-II",
+            studentResultList()
         );
     }
 }

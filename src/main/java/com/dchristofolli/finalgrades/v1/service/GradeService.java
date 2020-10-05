@@ -32,7 +32,7 @@ public class GradeService {
 
     public GradeResult getResultsByClass(GradeRequest gradeRequest) {
         fillsDefaultWeight(gradeRequest);
-        Disciplina disciplina = findAllClasses().stream()
+        Disciplina disciplina = classRepository.findAll().stream()
             .filter(disc -> disc.getId().equals(gradeRequest.getDiciplinaId())).findFirst()
             .orElseThrow(() -> new ApiException("Nenhum aluno encontrado", HttpStatus.NOT_FOUND));
         List<AlunoResult> alunoResultList = new ArrayList<>();
