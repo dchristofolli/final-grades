@@ -24,10 +24,12 @@ Para esse projeto, foram utilizadas as seguintes tecnologias:
 * Swagger: Documentação interativa da API;
 
 #### Requerimentos
-Para executar o sistema, é necessário ter Java 11 na máquina.
+Para executar o sistema, é necessário ter Java 11 e Docker instalados na máquina.
 
 #### Inicialização do sistema
-Execute o comando abaixo na raíz do projeto, ou use uma IDE <br />
+Execute os comandos abaixo na raíz do projeto <br />
+docker-compose up -d <br />
+./gradlew clean build <br />
 java -jar ./build/libs/final-grades-1.0.jar.
 
 
