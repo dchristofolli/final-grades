@@ -24,7 +24,7 @@ public class GradeService {
 
     public List<Disciplina> findAllClasses() {
         List<Disciplina> disciplinaList = new ArrayList<>();
-        jsonReader.readJsonFile().getAlunos().stream()
+        findAllStudent().getAlunos().stream()
             .map(Aluno::getDisciplinas)
             .forEach(disciplinas -> disciplinas
                 .forEach(disciplina -> {
@@ -40,11 +40,12 @@ public class GradeService {
     public GradeResult getResultsByClass(GradeRequest gradeRequest) {
         fillsDefaultWeight(gradeRequest);
         Disciplina disciplina = findAllClasses().stream()
-            .filter(disc -> disc.getId().equals(gradeRequest.getDiciplinaId()))
-            .findFirst().orElseThrow(() -> new ApiException("Nenhum aluno encontrado", HttpStatus.NOT_FOUND));
+            .filter(disc -> disc.getId().equals(gradeRequest.getDiciplinaId())).findFirst()
+            .orElseThrow(() -> new ApiException("Nenhum aluno encontrado", HttpStatus.NOT_FOUND));
         List<AlunoResult> alunoResultList = new ArrayList<>();
-        jsonReader.readJsonFile().getAlunos().forEach(aluno -> {
-            if (aluno.getDisciplinas().stream().anyMatch(disc -> disc.getId().equals(disciplina.getId()))) {
+        findAllStudent().getAlunos().forEach(aluno -> {
+            if (aluno.getDisciplinas().stream()
+                .anyMatch(disc -> disc.getId().equals(disciplina.getId()))) {
                 AlunoResult tempAluno = new AlunoResult();
                 tempAluno.setId(aluno.getId());
                 tempAluno.setNome(aluno.getNome());

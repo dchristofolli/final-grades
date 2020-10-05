@@ -1,10 +1,9 @@
 package com.dchristofolli.finalgrades.v1.service;
 
+import com.dchristofolli.finalgrades.exception.ApiException;
 import com.dchristofolli.finalgrades.v1.dto.StudentList;
 import com.google.gson.Gson;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-import org.springframework.beans.factory.annotation.Value;
+import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 
 import java.io.IOException;
@@ -15,25 +14,24 @@ import java.util.Objects;
 
 @Service
 public class JsonReader {
-    private final Logger logger = LoggerFactory.getLogger(JsonReader.class);
     private final Gson gson;
-    @Value("${file.path}")
-    private String jsonFilePath;
+    private static final String DELIMITER = " ";
+    private static final String JSON_PATH = "Alunos.json";
 
     public JsonReader(Gson gson) {
         this.gson = gson;
     }
 
     public StudentList readJsonFile() {
-        String tempJson = null;
         try {
-            tempJson = String.join(" ",
-                Files.readAllLines(Paths.get(jsonFilePath),
+            String tempJson = String.join(DELIMITER,
+                Files.readAllLines(Paths.get(JSON_PATH),
                     StandardCharsets.UTF_8));
+            String json = Objects.requireNonNull(tempJson).replace("Prova", "prova");
+            return new StudentList(gson.fromJson(json, StudentList.class).getAlunos());
         } catch (IOException e) {
-            logger.error(e.getMessage());
+            throw new ApiException("Não foi possível ler o arquivo.\n" + e.getMessage(),
+                HttpStatus.INTERNAL_SERVER_ERROR);
         }
-        String json = Objects.requireNonNull(tempJson).replace("Prova", "prova");
-        return new StudentList(gson.fromJson(json, StudentList.class).getAlunos());
     }
 }
