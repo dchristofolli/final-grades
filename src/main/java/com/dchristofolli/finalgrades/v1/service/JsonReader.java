@@ -7,7 +7,6 @@ import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 
 import java.io.IOException;
-import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
 import java.nio.file.Paths;
 
@@ -21,9 +20,7 @@ public class JsonReader {
 
     public StudentList readJsonFile() {
         try {
-            String tempJson = String.join(" ",
-                Files.readAllLines(Paths.get("Alunos.json"),
-                    StandardCharsets.UTF_8));
+            String tempJson = new String(Files.readAllBytes(Paths.get("Alunos.json")));
             String json = tempJson.replace("Prova", "prova");
             return new StudentList(gson.fromJson(json, StudentList.class).getAlunos());
         } catch (IOException e) {
