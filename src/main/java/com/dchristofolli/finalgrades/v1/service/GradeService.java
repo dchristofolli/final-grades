@@ -43,6 +43,13 @@ public class GradeService {
             .filter(disc -> disc.getId().equals(gradeRequest.getDiciplinaId())).findFirst()
             .orElseThrow(() -> new ApiException("Nenhum aluno encontrado", HttpStatus.NOT_FOUND));
         List<AlunoResult> alunoResultList = new ArrayList<>();
+        getStudentGrades(gradeRequest, disciplina, alunoResultList);
+        return new GradeResult(disciplina.getId(),
+            disciplina.getNome(),
+            alunoResultList);
+    }
+
+    private void getStudentGrades(GradeRequest gradeRequest, Disciplina disciplina, List<AlunoResult> alunoResultList) {
         findAllStudent().getAlunos().forEach(aluno -> {
             if (aluno.getDisciplinas().stream()
                 .anyMatch(disc -> disc.getId().equals(disciplina.getId()))) {
@@ -54,22 +61,27 @@ public class GradeService {
                     .filter(disciplina1 -> disciplina1.getId().equals(disciplina.getId()))
                     .map(Disciplina::getNotas)
                     .forEach(notas ->
-                        notas.forEach(nota -> {
-                            Nota nt = gradesCorrector(nota);
-                            sum.updateAndGet(v -> (v + (nt.getProva1() * gradeRequest.getPeso1())));
-                            sum.updateAndGet(v -> (v + (nt.getProva2() * gradeRequest.getPeso2())));
-                            sum.updateAndGet(v -> (v + (nt.getProva3() * gradeRequest.getPeso3())));
-                        })
+                        calculateGrades(gradeRequest, sum, notas)
                     );
                 tempAluno.setNotaFinal(sum.get() / 3);
-                if (tempAluno.getNotaFinal() > 10)
-                    tempAluno.setNotaFinal(10);
+                finalGradeLeveling(tempAluno);
                 alunoResultList.add(decimalFormatter(tempAluno));
             }
         });
-        return new GradeResult(disciplina.getId(),
-            disciplina.getNome(),
-            alunoResultList);
+    }
+
+    private void calculateGrades(GradeRequest gradeRequest, AtomicReference<Double> sum, List<Nota> notas) {
+        notas.forEach(nota -> {
+            Nota nt = gradesCorrector(nota);
+            sum.updateAndGet(v -> (v + (nt.getProva1() * gradeRequest.getPeso1())));
+            sum.updateAndGet(v -> (v + (nt.getProva2() * gradeRequest.getPeso2())));
+            sum.updateAndGet(v -> (v + (nt.getProva3() * gradeRequest.getPeso3())));
+        });
+    }
+
+    private void finalGradeLeveling(AlunoResult tempAluno) {
+        if (tempAluno.getNotaFinal() > 10)
+            tempAluno.setNotaFinal(10);
     }
 
     private void fillsDefaultWeight(GradeRequest gradeRequest) {
